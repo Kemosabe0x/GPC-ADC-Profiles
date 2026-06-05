@@ -41,7 +41,7 @@ bash setup/setup_gcp_profiles.sh
 
 **What the script does:**
 
-1. Backs up your current default credentials (`kemosabedeveloper@gmail.com`) to `~/.config/gcloud/application_default_credentials_default.json`.
+1. Backs up your current default credentials (`my-personal-email@gmail.com`) to `~/.config/gcloud/application_default_credentials_default.json`.
 2. Creates and activates a new `gcloud` configuration profile named `org`.
 3. Prompts you to log in with your **Google organization account** via the browser.
 4. Saves the organization credentials to `~/.config/gcloud/application_default_credentials_org.json`.
@@ -65,7 +65,7 @@ Use the following helper functions to switch between your profiles:
 gcp-default
 ```
 
-* Activates the `default` CLI profile (`kemosabedeveloper@gmail.com`).
+* Activates the `default` CLI profile (`my-personal-email@gmail.com`).
 * Sets `GOOGLE_APPLICATION_CREDENTIALS` to point to `application_default_credentials_default.json`.
 
 ### Switch to Organization profile
