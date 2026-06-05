@@ -5,11 +5,15 @@ A streamlined setup for managing multiple Google Cloud CLI configuration profile
 ---
 
 ## The Problem
-By default, the Google Cloud CLI (`gcloud`) supports multiple configurations via `gcloud config configurations`. However, Application Default Credentials (ADC) — which are used by application code, client libraries, and tools like Terraform — always write to and read from a single global file: `~/.config/gcloud/application_default_credentials.json`. 
+
+By default, the Google Cloud CLI (`gcloud`) supports multiple configurations via `gcloud config configurations`. However, Application Default Credentials (ADC) — which are used by application code, client libraries, and tools like Terraform — always write to and read from a single global file: `~/.config/gcloud/application_default_credentials.json`.
 
 As a result, switching your `gcloud` CLI profile does **not** automatically switch your ADC, causing permission conflicts when running local development servers or scripts.
 
+This becomes even more problematic when working within an organization that strictly requires ADC for resource access, where standard API keys are not allowed or possible. This scenario is the primary motivation for this project: seamlessly utilizing an organization's GCP account in a local development environment while keeping other profiles isolated.
+
 ## The Solution
+
 This setup segregates your ADC credential files and uses shell functions to switch both your `gcloud` configuration and the `GOOGLE_APPLICATION_CREDENTIALS` environment variable dynamically.
 
 ---
@@ -28,6 +32,7 @@ gpc-adc-profiles/
 ## Installation & Setup
 
 ### 1. Initialize Profiles and Credentials
+
 Run the setup script in your interactive terminal. It will guide you through authenticating both accounts:
 
 ```bash
@@ -35,6 +40,7 @@ bash setup/setup_gcp_profiles.sh
 ```
 
 **What the script does:**
+
 1. Backs up your current default credentials (`kemosabedeveloper@gmail.com`) to `~/.config/gcloud/application_default_credentials_default.json`.
 2. Creates and activates a new `gcloud` configuration profile named `org`.
 3. Prompts you to log in with your **Google organization account** via the browser.
@@ -46,6 +52,7 @@ bash setup/setup_gcp_profiles.sh
 ## Usage
 
 Reload your terminal session to load the aliases:
+
 ```bash
 source ~/.zshrc
 ```
@@ -53,18 +60,22 @@ source ~/.zshrc
 Use the following helper functions to switch between your profiles:
 
 ### Switch to Default / Personal profile
+
 ```bash
 gcp-default
 ```
-*   Activates the `default` CLI profile (`kemosabedeveloper@gmail.com`).
-*   Sets `GOOGLE_APPLICATION_CREDENTIALS` to point to `application_default_credentials_default.json`.
+
+* Activates the `default` CLI profile (`kemosabedeveloper@gmail.com`).
+* Sets `GOOGLE_APPLICATION_CREDENTIALS` to point to `application_default_credentials_default.json`.
 
 ### Switch to Organization profile
+
 ```bash
 gcp-org
 ```
-*   Activates the `org` CLI profile (your organization account).
-*   Sets `GOOGLE_APPLICATION_CREDENTIALS` to point to `application_default_credentials_org.json`.
+
+* Activates the `org` CLI profile (your organization account).
+* Sets `GOOGLE_APPLICATION_CREDENTIALS` to point to `application_default_credentials_org.json`.
 
 ---
 
